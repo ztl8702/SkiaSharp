@@ -67,7 +67,7 @@ namespace SkiaSharp
 		public SKBitmap (SKImageInfo info, int rowBytes)
 			: this ()
 		{
-			if (!SkiaApi.sk_bitmap_try_alloc_pixels (Handle, ref info, (IntPtr)rowBytes)) {
+			if (!TryAllocPixels (info, rowBytes)) {
 				throw new Exception (UnableToAllocatePixelsMessage);
 			}
 		}
@@ -75,7 +75,7 @@ namespace SkiaSharp
 		public SKBitmap (SKImageInfo info, SKColorTable ctable, SKBitmapAllocFlags flags)
 			: this ()
 		{
-			if (!SkiaApi.sk_bitmap_try_alloc_pixels_with_color_table (Handle, ref info, ctable != null ? ctable.Handle : IntPtr.Zero, (uint)flags)) {
+			if (!TryAllocPixels (info, ctable, flags)) {
 				throw new Exception (UnableToAllocatePixelsMessage);
 			}
 		}
@@ -92,6 +92,16 @@ namespace SkiaSharp
 			}
 
 			base.Dispose (disposing);
+		}
+
+		public bool TryAllocPixels (SKImageInfo info, int rowBytes)
+		{
+			return SkiaApi.sk_bitmap_try_alloc_pixels (Handle, ref info, (IntPtr)rowBytes);
+		}
+
+		public bool TryAllocPixels (SKImageInfo info, SKColorTable ctable, SKBitmapAllocFlags flags)
+		{
+			return SkiaApi.sk_bitmap_try_alloc_pixels_with_color_table (Handle, ref info, ctable != null ? ctable.Handle : IntPtr.Zero, (uint)flags);
 		}
 
 		public void Reset ()
@@ -145,7 +155,6 @@ namespace SkiaSharp
 				throw new ArgumentException (nameof (dst));
 			}
 
-			using (new SKAutoLockPixels (this))
 			using (var pixmap = PeekPixels ()) {
 				var info = Info;
 				if (dstRowBytes == 0) {
@@ -155,9 +164,13 @@ namespace SkiaSharp
 			}
 		}
 
+		[Obsolete]
 		public bool CanCopyTo (SKColorType colorType)
 		{
-			return SkiaApi.sk_bitmap_can_copy_to (Handle, colorType);
+			var src = Info;
+			var dst = Info;
+			dst.ColorType = colorType;
+			return SKImageInfo.IsValidConversion (ref dst, ref src);
 		}
 
 		public SKBitmap Copy ()
@@ -168,7 +181,7 @@ namespace SkiaSharp
 		public SKBitmap Copy (SKColorType colorType)
 		{
 			var destination = new SKBitmap ();
-			if (!SkiaApi.sk_bitmap_copy (Handle, destination.Handle, colorType)) {
+			if (!CopyTo (destination, colorType)) {
 				destination.Dispose ();
 				destination = null;
 			}
@@ -177,10 +190,7 @@ namespace SkiaSharp
 
 		public bool CopyTo (SKBitmap destination)
 		{
-			if (destination == null) {
-				throw new ArgumentNullException (nameof (destination));
-			}
-			return SkiaApi.sk_bitmap_copy (Handle, destination.Handle, ColorType);
+			return CopyTo (destination, ColorType);
 		}
 
 		public bool CopyTo (SKBitmap destination, SKColorType colorType)
@@ -188,7 +198,15 @@ namespace SkiaSharp
 			if (destination == null) {
 				throw new ArgumentNullException (nameof (destination));
 			}
-			return SkiaApi.sk_bitmap_copy (Handle, destination.Handle, colorType);
+
+			var info = Info;
+			info.ColorType = colorType;
+			destination.TryAllocPixels (info, ColorTable, 0);
+
+			using (var dst = destination.PeekPixels ())
+			using (var src = PeekPixels ()) {
+				return src.ReadPixels (dst);
+			}
 		}
 
 		public bool ExtractSubset(SKBitmap destination, SKRectI subset)
@@ -262,16 +280,6 @@ namespace SkiaSharp
 			get { return (int)SkiaApi.sk_bitmap_get_byte_count (Handle); }
 		}
 
-		public void LockPixels ()
-		{
-			SkiaApi.sk_bitmap_lock_pixels (Handle);
-		}
-
-		public void UnlockPixels ()
-		{
-			SkiaApi.sk_bitmap_unlock_pixels (Handle);
-		}
-
 		public IntPtr GetPixels ()
 		{
 			IntPtr length;
@@ -300,13 +308,11 @@ namespace SkiaSharp
 		
 		public byte[] Bytes {
 			get { 
-				using (new SKAutoLockPixels (this)) {
-					IntPtr length;
-					var pixelsPtr = GetPixels (out length);
-					byte [] bytes = new byte [(int)length];
-					Marshal.Copy (pixelsPtr, bytes, 0, (int)length);
-					return bytes; 
-				}
+				IntPtr length;
+				var pixelsPtr = GetPixels (out length);
+				byte [] bytes = new byte [(int)length];
+				Marshal.Copy (pixelsPtr, bytes, 0, (int)length);
+				return bytes; 
 			}
 		}
 
@@ -604,7 +610,6 @@ namespace SkiaSharp
 
 		public static bool Resize (SKBitmap dst, SKBitmap src, SKBitmapResizeMethod method)
 		{
-			using (new SKAutoLockPixels (src))
 			using (var srcPix = src.PeekPixels ())
 			using (var dstPix = dst.PeekPixels ()) {
 				return SKPixmap.Resize (dstPix, srcPix, method);// && dst.InstallPixels (dstPix); 
@@ -629,7 +634,6 @@ namespace SkiaSharp
 
 		public bool Encode (SKWStream dst, SKEncodedImageFormat format, int quality)
 		{
-			using (new SKAutoLockPixels (this))
 			using (var pixmap = new SKPixmap ()) {
 				return PeekPixels (pixmap) && pixmap.Encode (dst, format, quality);
 			}
@@ -659,46 +663,6 @@ namespace SkiaSharp
 		{
 			using (var ctx = NativeDelegateContext.Unwrap (context)) {
 				ctx.GetDelegate<SKBitmapReleaseDelegate> () (address, ctx.ManagedContext);
-			}
-		}
-	}
-
-	public class SKAutoLockPixels : IDisposable
-	{
-		private SKBitmap bitmap;
-		private readonly bool doLock;
-
-		public SKAutoLockPixels (SKBitmap bitmap)
-			: this (bitmap, true)
-		{
-		}
-
-		public SKAutoLockPixels (SKBitmap bitmap, bool doLock)
-		{
-			this.bitmap = bitmap;
-			this.doLock = doLock;
-
-			if (bitmap != null && doLock) {
-				bitmap.LockPixels ();
-			}
-		}
-
-		public void Dispose ()
-		{
-			if (bitmap != null && doLock) {
-				bitmap.UnlockPixels ();
-			}
-		}
-
-		/// <summary>
-		/// Perform the unlock now, instead of waiting for the Dispose.
-		/// Will only do this once.
-		/// </summary>
-		public void Unlock ()
-		{
-			if (bitmap != null && doLock) {
-				bitmap.UnlockPixels ();
-				bitmap = null;
 			}
 		}
 	}

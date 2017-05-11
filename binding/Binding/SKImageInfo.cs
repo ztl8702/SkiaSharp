@@ -152,5 +152,9 @@ namespace SkiaSharp
 		public SKRectI Rect {
 			get { return SKRectI.Create (Width, Height); }
 		}
+
+		public static bool IsValidConversion (ref SKImageInfo dst, ref SKImageInfo src) {
+			return SkiaApi.sk_imageinfo_valid_conversion (ref dst, ref src);
+		}
 	}
 }

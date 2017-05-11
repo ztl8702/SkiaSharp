@@ -85,6 +85,10 @@ namespace SkiaSharp
 		public extern static SKColorType sk_colortype_get_default_8888();
 
 		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public extern static bool sk_imageinfo_valid_conversion(ref SKImageInfo dst, ref SKImageInfo src);
+
+		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
 		public extern static void sk_surface_unref(sk_surface_t t);
 		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
 		public extern static sk_surface_t sk_surface_new_raster(ref SKImageInfo info, ref SKSurfaceProps pros);
@@ -1243,16 +1247,6 @@ namespace SkiaSharp
 		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public extern static bool sk_bitmap_ready_to_draw(sk_bitmap_t b);
-		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public extern static bool sk_bitmap_copy(sk_bitmap_t cbitmap, sk_bitmap_t dst, SKColorType ct);
-		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public extern static bool sk_bitmap_can_copy_to(sk_bitmap_t cbitmap, SKColorType ct);
-		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
-		public extern static void sk_bitmap_lock_pixels(sk_bitmap_t b);
-		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
-		public extern static void sk_bitmap_unlock_pixels(sk_bitmap_t b);
 		[DllImport(SKIA, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public extern static bool sk_bitmap_install_pixels(sk_bitmap_t cbitmap, ref SKImageInfo cinfo, IntPtr pixels, IntPtr rowBytes, sk_colortable_t ctable, IntPtr releaseProc, IntPtr context);
