@@ -434,7 +434,7 @@ namespace SkiaSharp
 	internal unsafe struct SKCodecOptionsInternal {
 		public SKZeroInitialized fZeroInitialized;
 		public SKRectI* fSubset;
-		public IntPtr fFrameIndex;
+		public int fFrameIndex;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool fHasPriorFrame;
 		public SKTransferFunctionBehavior fPremulBehavior;

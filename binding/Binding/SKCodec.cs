@@ -134,7 +134,7 @@ namespace SkiaSharp
 			var nativeOptions = new SKCodecOptionsInternal {
 				fZeroInitialized = options.ZeroInitialized,
 				fSubset = null,
-				fFrameIndex = (IntPtr) options.FrameIndex,
+				fFrameIndex = options.FrameIndex,
 				fHasPriorFrame = options.HasPriorFrame,
 				fPremulBehavior = options.PremulBehavior,
 			};
@@ -190,7 +190,7 @@ namespace SkiaSharp
 			var nativeOptions = new SKCodecOptionsInternal {
 				fZeroInitialized = options.ZeroInitialized,
 				fSubset = null,
-				fFrameIndex = (IntPtr) options.FrameIndex,
+				fFrameIndex = options.FrameIndex,
 				fHasPriorFrame = options.HasPriorFrame,
 				fPremulBehavior = options.PremulBehavior,
 			};
@@ -233,7 +233,7 @@ namespace SkiaSharp
 			var nativeOptions = new SKCodecOptionsInternal {
 				fZeroInitialized = options.ZeroInitialized,
 				fSubset = null,
-				fFrameIndex = (IntPtr) options.FrameIndex,
+				fFrameIndex = options.FrameIndex,
 				fHasPriorFrame = options.HasPriorFrame,
 				fPremulBehavior = options.PremulBehavior,
 			};
