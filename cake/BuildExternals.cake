@@ -212,7 +212,8 @@ Task ("externals-windows")
                 "--args=\"" +
                 "  is_official_build=true skia_enable_tools=false" +
                 "  target_os=\\\"win\\\" target_cpu=\\\"" + skiaArch + "\\\"" +
-                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true skia_use_dng_sdk=true" +
+                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                "  skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
                 "  extra_cflags=[ \\\"-DSKIA_C_DLL\\\", \\\"/MD\\\", \\\"/EHsc\\\" ]" +
                 "  extra_ldflags=[ ]" +
                 "\"",
@@ -277,7 +278,8 @@ Task ("externals-uwp")
                 "--args=\"" +
                 "  is_official_build=true skia_enable_tools=false" +
                 "  target_os=\\\"winrt\\\" target_cpu=\\\"" + skiaArch + "\\\"" +
-                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true skia_use_dng_sdk=true" +
+                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                "  skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
                 "  extra_cflags=[ " + 
                 "    \\\"-DSKIA_C_DLL\\\", \\\"/MD\\\", \\\"/EHsc\\\", " + 
                 "    \\\"-DWINAPI_FAMILY=WINAPI_FAMILY_APP\\\", \\\"-DSK_BUILD_FOR_WINRT\\\", \\\"-DSK_HAS_DWRITE_1_H\\\", \\\"-DSK_HAS_DWRITE_2_H\\\", \\\"-DNO_GETENV\\\" ]" +
@@ -346,7 +348,8 @@ Task ("externals-osx")
                 "--args='" +
                 "  is_official_build=true skia_enable_tools=false" +
                 "  target_os=\"mac\" target_cpu=\"" + skiaArch + "\"" +
-                "  skia_use_icu=false skia_use_sfntly=false" +
+                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                "  skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
                 "  extra_cflags=[ \"-DSKIA_C_DLL\", \"-mmacosx-version-min=10.9\" ]" +
                 "  extra_ldflags=[ \"-Wl,macosx_version_min=10.9\" ]" +
                 "'",
@@ -461,7 +464,8 @@ Task ("externals-ios")
                 "--args='" +
                 "  is_official_build=true skia_enable_tools=false" +
                 "  target_os=\"ios\" target_cpu=\"" + skiaArch + "\"" +
-                "  skia_use_icu=false skia_use_sfntly=false" +
+                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                "  skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
                 "  extra_cflags=[ \"-DSKIA_C_DLL\", \"-mios-version-min=8.0\" " + specifics + " ]" +
                 "  extra_ldflags=[ \"-Wl,ios_version_min=8.0\" ]" +
                 "'",
@@ -572,8 +576,9 @@ Task ("externals-tvos")
                 "--args='" +
                 "  is_official_build=true skia_enable_tools=false" +
                 "  target_os=\"tvos\" target_cpu=\"" + skiaArch + "\"" +
-                "  skia_use_icu=false skia_use_sfntly=false" +
-                "  extra_cflags=[ \"-DSKIA_C_DLL\", \"-mtvos-version-min=9.0\" ]" +
+                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                "  skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
+                "  extra_cflags=[ \"-DSKIA_C_DLL\", \\\"-DSK_BUILD_FOR_TVOS\\\", \"-mtvos-version-min=9.0\" ]" +
                 "  extra_ldflags=[ \"-Wl,tvos_version_min=9.0\" ]" +
                 "'",
             WorkingDirectory = SKIA_PATH.FullPath,
@@ -675,7 +680,8 @@ Task ("externals-android")
                 "--args='" +
                 "  is_official_build=true skia_enable_tools=false" +
                 "  target_os=\"android\" target_cpu=\"" + skiaArch + "\"" +
-                "  skia_use_icu=false skia_use_sfntly=false" +
+                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                "  skia_use_system_expat=false skia_use_system_freetype2=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
                 "  extra_cflags=[ \"-DSKIA_C_DLL\" ]" +
                 "  ndk=\"" + ANDROID_NDK_HOME + "\"" + 
                 "  ndk_api=" + (skiaArch == "x64" || skiaArch == "arm64" ? 21 : 9) +
@@ -745,7 +751,8 @@ Task ("externals-linux")
                 "--args='" +
                 "  is_official_build=true skia_enable_tools=false" +
                 "  target_os=\"linux\" target_cpu=\"" + arch + "\"" +
-                "  skia_use_icu=false skia_use_sfntly=false skia_use_system_freetype2=false" +
+                "  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                "  skia_use_system_expat=false skia_use_system_freetype2=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
                 "  skia_enable_gpu=" + (SUPPORT_GPU ? "true" : "false") +
                 "  extra_cflags=[ \"-DSKIA_C_DLL\" ]" +
                 "  extra_ldflags=[ ]" +

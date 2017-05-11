@@ -423,6 +423,13 @@ namespace SkiaSharp
 		BottomUp
 	}
 
+
+	public enum SKTransferFunctionBehavior {
+		Respect,
+		Ignore,
+	}
+
+
 	[StructLayout(LayoutKind.Sequential)]
 	internal unsafe struct SKCodecOptionsInternal {
 		public SKZeroInitialized fZeroInitialized;
@@ -430,6 +437,7 @@ namespace SkiaSharp
 		public IntPtr fFrameIndex;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool fHasPriorFrame;
+		public SKTransferFunctionBehavior fPremulBehavior;
 	}
 
 	public struct SKCodecOptions {
@@ -444,30 +452,35 @@ namespace SkiaSharp
 			Subset = null;
 			FrameIndex = 0;
 			HasPriorFrame = false;
+			PremulBehavior = SKTransferFunctionBehavior.Respect;
 		}
 		public SKCodecOptions (SKZeroInitialized zeroInitialized, SKRectI subset) {
 			ZeroInitialized = zeroInitialized;
 			Subset = subset;
 			FrameIndex = 0;
 			HasPriorFrame = false;
+			PremulBehavior = SKTransferFunctionBehavior.Respect;
 		}
 		public SKCodecOptions (SKRectI subset) {
 			ZeroInitialized = SKZeroInitialized.No;
 			Subset = subset;
 			FrameIndex = 0;
 			HasPriorFrame = false;
+			PremulBehavior = SKTransferFunctionBehavior.Respect;
 		}
 		public SKCodecOptions (int frameIndex, bool hasPriorFrame) {
 			ZeroInitialized = SKZeroInitialized.No;
 			Subset = null;
 			FrameIndex = frameIndex;
 			HasPriorFrame = hasPriorFrame;
+			PremulBehavior = SKTransferFunctionBehavior.Respect;
 		}
 		public SKZeroInitialized ZeroInitialized { get; set; }
 		public SKRectI? Subset { get; set; }
 		public bool HasSubset => Subset != null;
 		public int FrameIndex { get; set; }
 		public bool HasPriorFrame { get; set; }
+		public SKTransferFunctionBehavior PremulBehavior { get; set; }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -476,6 +489,7 @@ namespace SkiaSharp
 		private IntPtr duration;
 		[MarshalAs (UnmanagedType.I1)]
 		private bool fullyRecieved;
+		private SKAlphaType alphaType;
 
 		public int RequiredFrame {
 			get { return (int)requiredFrame; }
@@ -490,6 +504,11 @@ namespace SkiaSharp
 		public bool FullyRecieved {
 			get { return fullyRecieved; }
 			set { fullyRecieved = value; }
+		}
+
+		public SKAlphaType AlphaType {
+			get { return alphaType; }
+			set { alphaType = value; }
 		}
 	}
 
@@ -2197,14 +2216,25 @@ namespace SkiaSharp
 		Perspective = 0x08 
 	}
 
-	public enum SKVertexMode {
+	public enum SKVerticesVertexMode {
 		Triangles,
 		TriangleStrip,
 		TriangleFan,
 	}
 
+	[Obsolete ("Use SKVerticesVertexMode instead.")]
+	public enum SKVertexMode {
+		Triangles = SKVerticesVertexMode.Triangles,
+		TriangleStrip = SKVerticesVertexMode.TriangleStrip,
+		TriangleFan = SKVerticesVertexMode.TriangleFan,
+	}
+
 	public enum SKImageCachingHint {
 		Allow,
 		Disallow,
+	}
+
+	public enum SKBitmapAllocFlags {
+		ZeroPixels = 1 << 0,
 	}
 }

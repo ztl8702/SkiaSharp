@@ -701,37 +701,58 @@ namespace SkiaSharp
 
 		public int SaveCount => SkiaApi.sk_canvas_get_save_count (Handle);
 
-		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKColor[] colors, SKPaint paint)
+		public void DrawVertices (SKVerticesVertexMode vmode, SKPoint[] vertices, SKColor[] colors, SKPaint paint)
 		{
-			DrawVertices (vmode, vertices, null, colors, null, paint);
+			DrawVertices (vmode, vertices, colors, paint);
 		}
 
-		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, SKPaint paint)
+		public void DrawVertices (SKVerticesVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, SKPaint paint)
 		{
-			DrawVertices (vmode, vertices, texs, colors, null, paint);
+			DrawVertices (vmode, vertices, texs, colors, paint);
 		}
 
-		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, UInt16[] indices, SKPaint paint)
+		public void DrawVertices (SKVerticesVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, UInt16[] indices, SKPaint paint)
 		{
-			DrawVertices (vmode, vertices, texs, colors, SKBlendMode.Modulate, indices, paint);
+			DrawVertices (vmode, vertices, texs, colors, indices, paint);
 		}
 
-		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, SKBlendMode mode, UInt16[] indices, SKPaint paint)
+		public void DrawVertices (SKVerticesVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, SKBlendMode mode, UInt16[] indices, SKPaint paint)
+		{
+			var vert = SKVertices.CreateCopy (vmode, vertices, texs, colors, indices);
+			DrawVertices (vert, mode, paint);	
+		}
+
+		public void DrawVertices (SKVertices vertices, SKBlendMode mode, SKPaint paint)
 		{
 			if (vertices == null)
 				throw new ArgumentNullException (nameof (vertices));
 			if (paint == null)
 				throw new ArgumentNullException (nameof (paint));
+			SkiaApi.sk_canvas_draw_vertices (Handle, vertices.Handle, mode, paint.Handle);
+		}
 
-			if (texs != null && vertices.Length != texs.Length)
-				throw new ArgumentException ("The number of texture coordinates must match the number of vertices.", nameof (texs));
-			if (colors != null && vertices.Length != colors.Length)
-				throw new ArgumentException ("The number of colors must match the number of vertices.", nameof (colors));
+		[Obsolete ("Use DrawVertices(SKVerticesVertexMode, SKPoint[], SKColor[], SKPaint) instead.")]
+		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKColor[] colors, SKPaint paint)
+		{
+			DrawVertices ((SKVerticesVertexMode)vmode, vertices, colors, paint);
+		}
 
-			var vertexCount = vertices.Length;
-			var indexCount = indices?.Length ?? 0;
+		[Obsolete ("Use DrawVertices(SKVerticesVertexMode, SKPoint[], SKPoint[], SKColor[], SKPaint) instead.")]
+		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, SKPaint paint)
+		{
+			DrawVertices ((SKVerticesVertexMode)vmode, vertices, texs, colors, paint);
+		}
 
-			SkiaApi.sk_canvas_draw_vertices (Handle, vmode, vertexCount, vertices, texs, colors, mode, indices, indexCount, paint.Handle);
+		[Obsolete ("Use DrawVertices(SKVerticesVertexMode, SKPoint[], SKPoint[], SKColor[], UInt16[], SKPaint) instead.")]
+		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, UInt16[] indices, SKPaint paint)
+		{
+			DrawVertices ((SKVerticesVertexMode)vmode, vertices, texs, colors, indices, paint);
+		}
+
+		[Obsolete ("Use DrawVertices(SKVerticesVertexMode, SKPoint[], SKPoint[], SKColor[], SKBlendMode, UInt16[], SKPaint) instead.")]
+		public void DrawVertices (SKVertexMode vmode, SKPoint[] vertices, SKPoint[] texs, SKColor[] colors, SKBlendMode mode, UInt16[] indices, SKPaint paint)
+		{
+			DrawVertices ((SKVerticesVertexMode)(int)vmode, vertices, texs, colors, mode, indices, paint);
 		}
 	}
 
