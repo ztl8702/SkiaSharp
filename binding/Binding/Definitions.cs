@@ -485,20 +485,20 @@ namespace SkiaSharp
 
 	[StructLayout(LayoutKind.Sequential)]
 	public struct SKCodecFrameInfo {
-		private IntPtr requiredFrame;
-		private IntPtr duration;
+		private int requiredFrame;
+		private int duration;
 		[MarshalAs (UnmanagedType.I1)]
 		private bool fullyRecieved;
 		private SKAlphaType alphaType;
 
 		public int RequiredFrame {
 			get { return (int)requiredFrame; }
-			set { requiredFrame = (IntPtr)value; }
+			set { requiredFrame = value; }
 		}
 
 		public int Duration {
 			get { return (int)duration; }
-			set { duration = (IntPtr)value; }
+			set { duration = value; }
 		}
 
 		public bool FullyRecieved {
