@@ -785,6 +785,65 @@ Task ("externals-linux")
     }
 });
 
+// this builds the native C and C++ externals for tizen
+Task ("externals-tizen")
+    // .IsDependentOn ("externals-init")
+    // .WithCriteria (IsRunningOnLinux ())
+    .Does (() => 
+{
+    var buildArch = new Action<string, string, string, string> ((sdk, arch, skiaArch, tizenArch) => {
+        var tizenDir = (DirectoryPath) TIZEN_SDK_HOME;
+        var gnueabi = arch.EndsWith ("64") ? "gnu" : "gnueabi";
+        var cc = tizenDir.Combine ($"tools/{arch}-linux-{gnueabi}-gcc-4.9/bin/{arch}-linux-{gnueabi}-gcc.exe").FullPath;
+        var cxx = tizenDir.Combine ($"tools/{arch}-linux-{gnueabi}-gcc-4.9/bin/{arch}-linux-{gnueabi}-g++.exe").FullPath;
+        var ar = tizenDir.Combine ($"tools/{arch}-linux-{gnueabi}-gcc-4.9/bin/{arch}-linux-{gnueabi}-ar.exe").FullPath;
+        var includeDir = tizenDir.Combine ($"platforms/tizen-3.0/mobile/rootstraps/mobile-3.0-{sdk}.core/usr/include").FullPath;
+        var libDir = tizenDir.Combine ($"platforms/tizen-3.0/mobile/rootstraps/mobile-3.0-{sdk}.core/usr/lib").FullPath;
+
+        // generate native skia build files
+        RunProcess (SKIA_PATH.CombineWithFilePath ("bin/gn"), new ProcessSettings {
+            Arguments = 
+                $"gen out/tizen/{tizenArch} " + 
+                $"--args=\"" +
+                $"  cc=\\\"{cc}\\\" " +
+                $"  cxx=\\\"{cxx}\\\" " +
+                $"  ar=\\\"{ar}\\\" " +
+                $"  is_official_build=true skia_enable_tools=false" +
+                $"  target_os=\\\"linux\\\" target_cpu=\\\"{skiaArch}\\\"" +
+                $"  skia_use_icu=false skia_use_sfntly=false skia_use_piex=true" +
+                $"  skia_use_system_expat=false skia_use_system_freetype2=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false" +
+                $"  skia_enable_gpu=true" +
+                $"  extra_cflags=[ \\\"-Wno-unused-function\\\", \\\"-DSKIA_C_DLL\\\", \\\"-I{includeDir}\\\" ]" +
+                $"  extra_ldflags=[ \\\"-L{libDir}\\\" ]" +
+                $"\"",
+            WorkingDirectory = SKIA_PATH.FullPath,
+        });
+
+        // build native skia
+        RunProcess (tizenDir.CombineWithFilePath ("tools/ninja.exe"), new ProcessSettings {
+            Arguments = $"-C out/tizen/{tizenArch}",
+            WorkingDirectory = SKIA_PATH.FullPath,
+        });
+
+        // build libSkiaSharp
+        RunProcess (tizenDir.CombineWithFilePath ("tools/ide/bin/tizen.bat"), new ProcessSettings {
+            Arguments = $"build-native -a {skiaArch} -c gcc -C Release",
+            WorkingDirectory = "native-builds/libSkiaSharp_tizen",
+        });
+
+        // copy libSkiaSharp to output
+        EnsureDirectoryExists ($"native-builds/lib/tizen/{skiaArch}");
+        var so = $"native-builds/libSkiaSharp_tizen/Release/libskiasharp.so";
+        CopyFileToDirectory (so, $"native-builds/lib/tizen/{skiaArch}");
+        CopyFile (so, $"native-builds/lib/tizen/{skiaArch}/libSkiaSharp.so");
+    });
+
+    buildArch ("emulator", "i386", "x86", "i386");
+    // buildArch ("emulator", "x86_64", "x64");
+    buildArch ("device", "arm", "arm", "armel");
+    // buildArch ("device", "aarch64", "arm64");
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // EXTERNALS DOWNLOAD - download any externals that are needed
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,70 @@
+APPNAME = SkiaSharp
+
+type = sharedLib
+profile = mobile-3.0
+
+USER_SRCS = ../src/*.c ../src/*.cpp
+
+USER_DEFS = \
+    SK_INTERNAL SK_GAMMA_APPLY_TO_A8 QT_NO_KEYWORDS                 \
+    SK_ALLOW_STATIC_GLOBAL_INITIALIZERS=1 SK_SUPPORT_GPU=1          \
+    SK_FORCE_DISTANCE_FIELD_TEXT=0 SK_HAS_JPEG_LIBRARY              \
+    SK_HAS_PNG_LIBRARY SK_HAS_WEBP_LIBRARY SKIA_C_DLL               \
+    SKIA_IMPLEMENTATION=1 SK_CODEC_DECODES_RAW SK_SAMPLES_FOR_X     \
+    SK_BUILD_FOR_UNIX
+
+USER_INC_DIRS = \
+    ../../externals/skia/src/c             \
+    ../../externals/skia/src/core          \
+    ../../externals/skia/src/xml           \
+    ../../externals/skia/include/private   \
+    ../../externals/skia/include/c         \
+    ../../externals/skia/include/core      \
+    ../../externals/skia/include/codec     \
+    ../../externals/skia/include/effects   \
+    ../../externals/skia/include/pathops   \
+    ../../externals/skia/include/gpu       \
+    ../../externals/skia/include/config    \
+    ../../externals/skia/include/utils     \
+    ../../externals/skia/include/ports     \
+    ../../externals/skia/include/images    \
+    ../../externals/skia/include/svg       \
+    ../../externals/skia/include/xml
+
+USER_LIB_DIRS = \
+    ../../externals/skia/out/tizen/$(ARCH)
+
+# ifeq ($(strip $(ARCH)),x86)
+# EXTRA_FLAGS = -msse2 -mfpmath=sse 
+# else
+# ifeq ($(strip $(ARCH)),arm)
+# EXTRA_FLAGS =
+# endif
+# endif
+# 
+# ifeq "${ARCH}" "x86"
+# arch_cflags = -m32
+# else
+# arch_cflags = 
+# endif
+
+USER_C_OPTS = \
+    $(EXTRA_FLAGS) -fno-exceptions -fstrict-aliasing           \
+    -Wextra -Winit-self -Wpointer-arith -Wsign-compare -Wvla   \
+    -Wno-unused-parameter -Werror                              \
+    -fdata-sections -ffunction-sections                        \
+    -fvisibility=hidden
+
+USER_CPP_OPTS = \
+    -fno-rtti -fno-threadsafe-statics -Wnon-virtual-dtor       \
+    -fvisibility-inlines-hidden                                \
+    $(USER_C_OPTS)
+
+USER_LINK_OPTS = \
+    -Wl,--gc-sections
+
+USER_OBJS =
+
+USER_LIBS = skia atomic
+
+USER_EDCS =
