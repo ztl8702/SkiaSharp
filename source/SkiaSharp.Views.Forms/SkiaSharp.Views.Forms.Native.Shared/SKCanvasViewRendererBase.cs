@@ -21,6 +21,15 @@ using SKNativePaintSurfaceEventArgs = SkiaSharp.Views.UWP.SKPaintSurfaceEventArg
 using Xamarin.Forms.Platform.MacOS;
 using SKNativeView = SkiaSharp.Views.Mac.SKCanvasView;
 using SKNativePaintSurfaceEventArgs = SkiaSharp.Views.Mac.SKPaintSurfaceEventArgs;
+#elif __WPF__
+using System.Windows;
+using Xamarin.Forms.Platform.WPF;
+using SKNativeView = SkiaSharp.Views.WPF.SKElement;
+using SKNativePaintSurfaceEventArgs = SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs;
+#elif __GTK__
+using Xamarin.Forms.Platform.GTK;
+using SKNativeView = SkiaSharp.Views.Gtk.SKWidget;
+using SKNativePaintSurfaceEventArgs = SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs;
 #endif
 
 namespace SkiaSharp.Views.Forms
@@ -49,23 +58,9 @@ namespace SkiaSharp.Views.Forms
 
 		private void Initialize()
 		{
-#if __ANDROID__
 			touchHandler = new SKTouchHandler(
 				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? (float)Context.FromPixels(coord) : coord);
-#elif __IOS__
-			touchHandler = new SKTouchHandler(
-				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? coord : coord * Control.ContentScaleFactor);
-#elif __MACOS__
-			touchHandler = new SKTouchHandler(
-				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? coord : coord * Control.Window.BackingScaleFactor);
-#elif WINDOWS_UWP
-			touchHandler = new SKTouchHandler(
-				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? coord : (float)(coord * Control.Dpi));
-#endif
+				(x, y) => GetScaledCoord(x, y));
 		}
 
 #if __IOS__
@@ -161,6 +156,41 @@ namespace SkiaSharp.Views.Forms
 			base.Dispose(disposing);
 		}
 
+		private SKPoint GetScaledCoord(double x, double y)
+		{
+			if (Element.IgnorePixelScaling)
+			{
+#if __ANDROID__
+				// Android is the reverse of the other platforms
+				x = Context.FromPixels(x);
+				x = Context.FromPixels(y);
+#else
+				// fall through
+#endif
+			}
+			else
+			{
+#if __ANDROID__
+				// Android is the reverse of the other platforms
+#elif __IOS__
+				x = x * Control.ContentScaleFactor;
+				y = y * Control.ContentScaleFactor;
+#elif __MACOS__
+				x = x * Control.Window.BackingScaleFactor;
+				y = y * Control.Window.BackingScaleFactor;
+#elif WINDOWS_UWP
+				x = x * Control.Dpi;
+				y = y * Control.Dpi;
+#elif __WPF__
+				var m = PresentationSource.FromVisual(Control).CompositionTarget.TransformToDevice;
+				x = x * m.M11;
+				y = y * m.M22;
+#endif
+			}
+
+			return new SKPoint((float)x, (float)y);
+		}
+
 		private void OnPaintSurface(object sender, SKNativePaintSurfaceEventArgs e)
 		{
 			var controller = Element as ISKCanvasViewController;
@@ -176,6 +206,8 @@ namespace SkiaSharp.Views.Forms
 			Control.SetNeedsDisplay();
 #elif __MACOS__
 			Control.NeedsDisplay = true;
+#elif __WPF__
+			Control.InvalidateVisual();
 #else
 			Control.Invalidate();
 #endif

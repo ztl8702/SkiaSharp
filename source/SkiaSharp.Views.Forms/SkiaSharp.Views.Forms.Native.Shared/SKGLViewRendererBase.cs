@@ -49,23 +49,9 @@ namespace SkiaSharp.Views.Forms
 
 		private void Initialize()
 		{
-#if __ANDROID__
 			touchHandler = new SKTouchHandler(
 				args => ((ISKGLViewController)Element).OnTouch(args),
-				coord => coord);
-#elif __IOS__
-			touchHandler = new SKTouchHandler(
-				args => ((ISKGLViewController)Element).OnTouch(args),
-				coord => coord * Control.ContentScaleFactor);
-#elif __MACOS__
-			touchHandler = new SKTouchHandler(
-				args => ((ISKGLViewController)Element).OnTouch(args),
-				coord => coord * Control.Window.BackingScaleFactor);
-#elif WINDOWS_UWP
-			touchHandler = new SKTouchHandler(
-				args => ((ISKGLViewController)Element).OnTouch(args),
-				coord => (float)(coord * Control.ContentsScale));
-#endif
+				(x, y) => GetScaledCoord(x, y));
 		}
 
 		public GRContext GRContext => Control.GRContext;
@@ -172,6 +158,24 @@ namespace SkiaSharp.Views.Forms
 		}
 
 		protected abstract void SetupRenderLoop(bool oneShot);
+
+		private SKPoint GetScaledCoord(double x, double y)
+		{
+#if __ANDROID__
+			// Android is the reverse of the other platforms
+#elif __IOS__
+			x = x * Control.ContentScaleFactor;
+			y = y * Control.ContentScaleFactor;
+#elif __MACOS__
+			x = x * Control.Window.BackingScaleFactor;
+			y = y * Control.Window.BackingScaleFactor;
+#elif WINDOWS_UWP
+			x = x * Control.ContentsScale;
+			y = y * Control.ContentsScale;
+#endif
+
+			return new SKPoint((float)x, (float)y);
+		}
 
 		// the user asked to repaint
 		private void OnSurfaceInvalidated(object sender, EventArgs eventArgs)

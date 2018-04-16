@@ -97,6 +97,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarfBuzzSharp.UWP", "..\bin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaSharp.Views.Gtk", "SkiaSharp.Views\SkiaSharp.Views.Gtk\SkiaSharp.Views.Gtk.csproj", "{67A502A4-E8B2-419A-811E-5A634B29C8D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaSharp.Views.Forms.Android-v3", "SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Android-v3\SkiaSharp.Views.Forms.Android-v3.csproj", "{F617BFC8-373E-4C91-B06A-E2F74307DCC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaSharp.Views.Forms.iOS-v3", "SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.iOS-v3\SkiaSharp.Views.Forms.iOS-v3.csproj", "{98648755-2DB2-45C0-BD7E-8420C57D4FFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaSharp.Views.Forms.Mac-v3", "SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Mac-v3\SkiaSharp.Views.Forms.Mac-v3.csproj", "{8071A579-959D-4ED4-B05F-4DACAFEFA271}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaSharp.Views.Forms.UWP-v3", "SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.UWP-v3\SkiaSharp.Views.Forms.UWP-v3.csproj", "{AA4F420D-BAFF-4CBD-83CA-733BA27A4ABC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiaSharp.Views.Forms-v3", "SkiaSharp.Views.Forms\SkiaSharp.Views.Forms-v3\SkiaSharp.Views.Forms-v3.csproj", "{06C82A2B-9BD3-4A3B-830E-51E8049D829D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaSharp.Views.Forms.WPF-v3", "SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.WPF-v3\SkiaSharp.Views.Forms.WPF-v3.csproj", "{291B7185-0811-45A0-AD96-9E3926B1123B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaSharp.Views.Forms.Gtk-v3", "SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Gtk-v3\SkiaSharp.Views.Forms.Gtk-v3.csproj", "{CA0B9C88-2B3C-4464-A7BF-07C7FED8778A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\binding\Binding.Shared\Binding.Shared.projitems*{099a4bad-6cf7-4898-9d16-266bdd844f95}*SharedItemsImports = 4
@@ -105,6 +119,7 @@ Global
 		..\binding\HarfBuzzSharp.Shared\HarfBuzzSharp.Shared.projitems*{0c940695-4868-4cf7-7d16-266bdd88a812}*SharedItemsImports = 4
 		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems*{1555d119-8598-4e4d-91ac-d313f94a1673}*SharedItemsImports = 4
 		..\binding\HarfBuzzSharp.Shared\HarfBuzzSharp.Shared.projitems*{1aaa8f60-6138-4dfe-b240-5a0f3fb87e0f}*SharedItemsImports = 13
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems*{291b7185-0811-45a0-ad96-9e3926b1123b}*SharedItemsImports = 4
 		..\binding\Binding.Shared\Binding.Shared.projitems*{2ae5d8c5-eac6-4515-89f2-a4994b41c925}*SharedItemsImports = 4
 		..\binding\HarfBuzzSharp.Shared\HarfBuzzSharp.Shared.projitems*{2ae5d8c5-eac6-4515-89f2-a4994b41c925}*SharedItemsImports = 4
 		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Native.Shared\SkiaSharp.Views.Forms.Native.Shared.projitems*{2f94f024-1841-47e8-b521-74aa4e3eba54}*SharedItemsImports = 4
@@ -129,21 +144,28 @@ Global
 		SkiaSharp.Views\SkiaSharp.Views.Apple\SkiaSharp.Views.Apple.projitems*{74c78108-9199-4a7a-928c-fc4dc57d0ae4}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Shared\SkiaSharp.Views.Shared.projitems*{74c78108-9199-4a7a-928c-fc4dc57d0ae4}*SharedItemsImports = 4
 		SkiaSharp.HarfBuzz\SkiaSharp.HarfBuzz.Shared\SkiaSharp.HarfBuzz.Shared.projitems*{7cad1912-05a5-42e5-b7ba-81bb051f0566}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Native.Shared\SkiaSharp.Views.Forms.Native.Shared.projitems*{8071a579-959d-4ed4-b05f-4dacafefa271}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems*{8071a579-959d-4ed4-b05f-4dacafefa271}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Apple\SkiaSharp.Views.Apple.projitems*{809a15dc-e675-4a24-83fa-df13160f7e4c}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Shared\SkiaSharp.Views.Shared.projitems*{809a15dc-e675-4a24-83fa-df13160f7e4c}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Shared\SkiaSharp.Views.Shared.projitems*{8bb20362-91a2-4206-944d-634070eac6f3}*SharedItemsImports = 4
 		..\binding\Binding.Shared\Binding.Shared.projitems*{8d646738-458a-441f-b69b-253ef058a812}*SharedItemsImports = 4
 		..\binding\HarfBuzzSharp.Shared\HarfBuzzSharp.Shared.projitems*{8d646738-458a-441f-b69b-253ef058a812}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Shared\SkiaSharp.Views.Shared.projitems*{926c8d29-e047-4f4e-8b35-852e47bfa9f5}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Native.Shared\SkiaSharp.Views.Forms.Native.Shared.projitems*{98648755-2db2-45c0-bd7e-8420c57d4ffb}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems*{98648755-2db2-45c0-bd7e-8420c57d4ffb}*SharedItemsImports = 4
 		..\binding\Binding\Binding.projitems*{9c502b9a-25d4-473f-89bd-5a13dde16354}*SharedItemsImports = 13
 		SkiaSharp.Views\SkiaSharp.Views.AppleiOS\SkiaSharp.Views.AppleiOS.projitems*{9e850cca-54cc-4ceb-b2c2-e32ef4a17d61}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Apple\SkiaSharp.Views.Apple.projitems*{9e850cca-54cc-4ceb-b2c2-e32ef4a17d61}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Shared\SkiaSharp.Views.Shared.projitems*{9e850cca-54cc-4ceb-b2c2-e32ef4a17d61}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Native.Shared\SkiaSharp.Views.Forms.Native.Shared.projitems*{aa4f420d-baff-4cbd-83ca-733ba27a4abc}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems*{aa4f420d-baff-4cbd-83ca-733ba27a4abc}*SharedItemsImports = 4
 		..\binding\Binding.Shared\Binding.Shared.projitems*{bab615aa-956e-4079-b260-dd7b1f52ec7d}*SharedItemsImports = 4
 		..\binding\Binding\Binding.projitems*{bab615aa-956e-4079-b260-dd7b1f52ec7d}*SharedItemsImports = 4
 		SkiaSharp.HarfBuzz\SkiaSharp.HarfBuzz.Shared\SkiaSharp.HarfBuzz.Shared.projitems*{c3e63b2d-95d4-4c3f-b10f-7a0aacf94980}*SharedItemsImports = 13
 		..\binding\Binding.Shared\Binding.Shared.projitems*{c737dc80-5b71-4b26-a2dc-da30421788b0}*SharedItemsImports = 4
 		..\binding\Binding\Binding.projitems*{c737dc80-5b71-4b26-a2dc-da30421788b0}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems*{ca0b9c88-2b3c-4464-a7bf-07c7fed8778a}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.Apple\SkiaSharp.Views.Apple.projitems*{cbca14e7-96c9-4697-909c-19b1ef7298f7}*SharedItemsImports = 13
 		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Native.Shared\SkiaSharp.Views.Forms.Native.Shared.projitems*{cebd25fd-dd4f-4d5f-b809-d50d02176f41}*SharedItemsImports = 13
 		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Native.Shared\SkiaSharp.Views.Forms.Native.Shared.projitems*{da5da4d8-4885-4af2-96bb-ae803c344ab0}*SharedItemsImports = 4
@@ -158,6 +180,8 @@ Global
 		..\binding\HarfBuzzSharp.Shared\HarfBuzzSharp.Shared.projitems*{e8192110-fcf9-4972-9472-7408bc2ca56b}*SharedItemsImports = 4
 		..\binding\Binding.Shared\Binding.Shared.projitems*{eb1bbdcc-fb07-40d5-8b9e-0079e2c2f2df}*SharedItemsImports = 4
 		..\binding\Binding\Binding.projitems*{eb1bbdcc-fb07-40d5-8b9e-0079e2c2f2df}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Native.Shared\SkiaSharp.Views.Forms.Native.Shared.projitems*{f617bfc8-373e-4c91-b06a-e2f74307dcc3}*SharedItemsImports = 4
+		SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems*{f617bfc8-373e-4c91-b06a-e2f74307dcc3}*SharedItemsImports = 4
 		SkiaSharp.Views\SkiaSharp.Views.AppleiOS\SkiaSharp.Views.AppleiOS.projitems*{ff4c9f9f-7a6a-44d1-8338-d30e39e4e9d4}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -293,6 +317,34 @@ Global
 		{67A502A4-E8B2-419A-811E-5A634B29C8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67A502A4-E8B2-419A-811E-5A634B29C8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67A502A4-E8B2-419A-811E-5A634B29C8D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F617BFC8-373E-4C91-B06A-E2F74307DCC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F617BFC8-373E-4C91-B06A-E2F74307DCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F617BFC8-373E-4C91-B06A-E2F74307DCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F617BFC8-373E-4C91-B06A-E2F74307DCC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98648755-2DB2-45C0-BD7E-8420C57D4FFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98648755-2DB2-45C0-BD7E-8420C57D4FFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98648755-2DB2-45C0-BD7E-8420C57D4FFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98648755-2DB2-45C0-BD7E-8420C57D4FFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8071A579-959D-4ED4-B05F-4DACAFEFA271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8071A579-959D-4ED4-B05F-4DACAFEFA271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8071A579-959D-4ED4-B05F-4DACAFEFA271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8071A579-959D-4ED4-B05F-4DACAFEFA271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA4F420D-BAFF-4CBD-83CA-733BA27A4ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA4F420D-BAFF-4CBD-83CA-733BA27A4ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA4F420D-BAFF-4CBD-83CA-733BA27A4ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA4F420D-BAFF-4CBD-83CA-733BA27A4ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06C82A2B-9BD3-4A3B-830E-51E8049D829D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06C82A2B-9BD3-4A3B-830E-51E8049D829D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06C82A2B-9BD3-4A3B-830E-51E8049D829D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06C82A2B-9BD3-4A3B-830E-51E8049D829D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{291B7185-0811-45A0-AD96-9E3926B1123B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{291B7185-0811-45A0-AD96-9E3926B1123B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{291B7185-0811-45A0-AD96-9E3926B1123B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{291B7185-0811-45A0-AD96-9E3926B1123B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0B9C88-2B3C-4464-A7BF-07C7FED8778A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0B9C88-2B3C-4464-A7BF-07C7FED8778A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0B9C88-2B3C-4464-A7BF-07C7FED8778A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0B9C88-2B3C-4464-A7BF-07C7FED8778A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -339,6 +391,13 @@ Global
 		{89736865-5272-4A42-A7FB-D802C6345502} = {DF72A8D3-0A12-49C9-BBD2-4ACC9EB1A544}
 		{6D1E1F39-EF70-4211-A518-BBBAF02D6FFF} = {2F28C1EB-D020-4A3A-948F-DF0AD0FDCC53}
 		{67A502A4-E8B2-419A-811E-5A634B29C8D7} = {F19E1537-81B2-4D4F-A69E-78DC73ACC141}
+		{F617BFC8-373E-4C91-B06A-E2F74307DCC3} = {DCADA8CC-D50A-4BD9-B2E6-86696A43D819}
+		{98648755-2DB2-45C0-BD7E-8420C57D4FFB} = {DCADA8CC-D50A-4BD9-B2E6-86696A43D819}
+		{8071A579-959D-4ED4-B05F-4DACAFEFA271} = {DCADA8CC-D50A-4BD9-B2E6-86696A43D819}
+		{AA4F420D-BAFF-4CBD-83CA-733BA27A4ABC} = {DCADA8CC-D50A-4BD9-B2E6-86696A43D819}
+		{06C82A2B-9BD3-4A3B-830E-51E8049D829D} = {DCADA8CC-D50A-4BD9-B2E6-86696A43D819}
+		{291B7185-0811-45A0-AD96-9E3926B1123B} = {DCADA8CC-D50A-4BD9-B2E6-86696A43D819}
+		{CA0B9C88-2B3C-4464-A7BF-07C7FED8778A} = {DCADA8CC-D50A-4BD9-B2E6-86696A43D819}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67EACD19-0CEA-4127-9842-549AA6FB84C9}

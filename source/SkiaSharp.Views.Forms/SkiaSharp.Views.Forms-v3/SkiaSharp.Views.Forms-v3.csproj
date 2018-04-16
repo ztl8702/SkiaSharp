@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\SkiaSharp.Build.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputTypeEx>library</OutputTypeEx>
+    <AssemblyName>SkiaSharp.Views.Forms</AssemblyName>
+    <RootNamespace>SkiaSharp.Views.Forms</RootNamespace>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <SignAssembly>false</SignAssembly>
+    <PackagingGroup>SkiaSharp.Views.Forms-v3</PackagingGroup>
+    <PackagingPlatform>netstandard1.3</PackagingPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NET_STANDARD</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NET_STANDARD</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="mdoc" Version="5.6.0" PrivateAssets="All" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.354232-pre3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SkiaSharp.Views.Forms\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\binding\SkiaSharp.NetStandard\SkiaSharp.NetStandard.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\SkiaSharp.Build.targets" />
+  <Import Project="..\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems" Label="Shared" />
+</Project>

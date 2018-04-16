@@ -31,7 +31,7 @@ namespace SkiaSharp.Views.Gtk
 			var info = new SKImageInfo(pix.Width, pix.Height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
 
 			// create the surface
-			using (var surface = SKSurface.Create(info, pix.Pixels, info.RowBytes))
+			using (var surface = SKSurface.Create(info, pix.Pixels, pix.Rowstride))
 			{
 				// start drawing
 				OnPaintSurface(new SKPaintSurfaceEventArgs(surface, info));

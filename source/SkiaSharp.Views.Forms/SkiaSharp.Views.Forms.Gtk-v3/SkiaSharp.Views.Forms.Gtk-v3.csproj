@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\SkiaSharp.Build.props" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CA0B9C88-2B3C-4464-A7BF-07C7FED8778A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <RootNamespace>SkiaSharp.Views.Forms</RootNamespace>
+    <AssemblyName>SkiaSharp.Views.Forms</AssemblyName>
+    <PackagingGroup>SkiaSharp.Views.Forms-v3</PackagingGroup>
+    <PackagingPlatform>net461</PackagingPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__;__GTK__</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;__DESKTOP__;__GTK__</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="mdoc" Version="5.6.0" PrivateAssets="All" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.354232-pre3" />
+    <PackageReference Include="Xamarin.Forms.Platform.Gtk" Version="3.0.0.354232-pre3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\binding\SkiaSharp.Desktop\SkiaSharp.Desktop.csproj">
+      <Project>{eb1bbdcc-fb07-40d5-8b9e-0079e2c2f2df}</Project>
+      <Name>SkiaSharp.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SkiaSharp.Views\SkiaSharp.Views.Desktop\SkiaSharp.Views.Desktop.csproj">
+      <Project>{E5A90865-C185-45AD-88D1-6DA7D6004B03}</Project>
+      <Name>SkiaSharp.Views.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SkiaSharp.Views\SkiaSharp.Views.Gtk\SkiaSharp.Views.Gtk.csproj">
+      <Project>{67a502a4-e8b2-419a-811e-5a634b29c8d7}</Project>
+      <Name>SkiaSharp.Views.Gtk</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SkiaSharp.Views.Forms.Native.Shared\SKCanvasViewRendererBase.cs" />
+    <Compile Include="..\SkiaSharp.Views.Forms.Gtk\SKCanvasViewRenderer.cs" />
+    <Compile Include="..\SkiaSharp.Views.Forms.Gtk\SKImageSourceHandler.cs" />
+    <Compile Include="..\SkiaSharp.Views.Forms.Gtk\SKTouchHandler.cs" />
+    <Compile Include="SKGLViewRenderer.cs" />
+  </ItemGroup>
+  <Import Project="..\SkiaSharp.Views.Forms.Shared\SkiaSharp.Views.Forms.Shared.projitems" Label="Shared" />
+  <Import Project="..\..\SkiaSharp.Build.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
