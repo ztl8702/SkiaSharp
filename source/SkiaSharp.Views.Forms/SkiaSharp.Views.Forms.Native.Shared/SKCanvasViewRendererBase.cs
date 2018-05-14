@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 using SKFormsView = SkiaSharp.Views.Forms.SKCanvasView;
@@ -21,6 +21,11 @@ using SKNativePaintSurfaceEventArgs = SkiaSharp.Views.UWP.SKPaintSurfaceEventArg
 using Xamarin.Forms.Platform.MacOS;
 using SKNativeView = SkiaSharp.Views.Mac.SKCanvasView;
 using SKNativePaintSurfaceEventArgs = SkiaSharp.Views.Mac.SKPaintSurfaceEventArgs;
+#elif TIZEN4_0
+using Xamarin.Forms.Platform.Tizen;
+using SKNativeView = SkiaSharp.Views.Tizen.SKCanvasView;
+using SKNativePaintSurfaceEventArgs = SkiaSharp.Views.Tizen.SKPaintSurfaceEventArgs;
+using TForms = Xamarin.Forms.Platform.Tizen.Forms;
 #endif
 
 namespace SkiaSharp.Views.Forms
@@ -49,23 +54,9 @@ namespace SkiaSharp.Views.Forms
 
 		private void Initialize()
 		{
-#if __ANDROID__
 			touchHandler = new SKTouchHandler(
 				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? (float)Context.FromPixels(coord) : coord);
-#elif __IOS__
-			touchHandler = new SKTouchHandler(
-				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? coord : coord * Control.ContentScaleFactor);
-#elif __MACOS__
-			touchHandler = new SKTouchHandler(
-				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? coord : coord * Control.Window.BackingScaleFactor);
-#elif WINDOWS_UWP
-			touchHandler = new SKTouchHandler(
-				args => ((ISKCanvasViewController)Element).OnTouch(args),
-				coord => Element.IgnorePixelScaling ? coord : (float)(coord * Control.Dpi));
-#endif
+				(x, y) => GetScaledCoord(x, y));
 		}
 
 #if __IOS__
@@ -118,6 +109,12 @@ namespace SkiaSharp.Views.Forms
 		{
 			return (TNativeView)Activator.CreateInstance(typeof(TNativeView), new[] { Context });
 		}
+#elif TIZEN4_0
+		protected virtual TNativeView CreateNativeControl()
+		{
+			TNativeView ret = (TNativeView)Activator.CreateInstance(typeof(TNativeView), new[] { TForms.NativeParent });
+			return ret;
+		}
 #else
 		protected virtual TNativeView CreateNativeControl()
 		{
@@ -159,6 +156,43 @@ namespace SkiaSharp.Views.Forms
 			touchHandler.Detach(control);
 
 			base.Dispose(disposing);
+		}
+
+		private SKPoint GetScaledCoord(double x, double y)
+		{
+			if (Element.IgnorePixelScaling)
+			{
+#if __ANDROID__
+				x = Context.FromPixels(x);
+				x = Context.FromPixels(y);
+#elif TIZEN4_0
+				x = Tizen.ScalingInfo.FromPixel(x);
+				x = Tizen.ScalingInfo.FromPixel(y);
+#elif __IOS__ || __MACOS__ || WINDOWS_UWP
+				// Tizen and Android are the reverse of the other platforms
+#else
+#error Missing platform logic
+#endif
+			}
+			else
+			{
+#if __ANDROID__ || TIZEN4_0
+				// Tizen and Android are the reverse of the other platforms
+#elif __IOS__
+				x = x * Control.ContentScaleFactor;
+				y = y * Control.ContentScaleFactor;
+#elif __MACOS__
+				x = x * Control.Window.BackingScaleFactor;
+				y = y * Control.Window.BackingScaleFactor;
+#elif WINDOWS_UWP
+				x = x * Control.Dpi;
+				y = y * Control.Dpi;
+#else
+#error Missing platform logic
+#endif
+			}
+
+			return new SKPoint((float)x, (float)y);
 		}
 
 		private void OnPaintSurface(object sender, SKNativePaintSurfaceEventArgs e)
